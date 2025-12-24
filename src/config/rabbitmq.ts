@@ -1,5 +1,5 @@
 import amqp from "amqplib"
-import appConfig from "./config/app_configs"
+import appConfig from "./app_configs"
 
 const URL = appConfig.RABBITMQ_URL
 

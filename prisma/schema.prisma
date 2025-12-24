@@ -11,3 +11,139 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role {
+  USER
+  AUTHOR
+  MODERATOR
+  ADMIN
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String?
+  email_verified_at DateTime?
+  avatarUrl         String?   @default("https://cdn-icons-png.flaticon.com/512/149/149071.png")
+  password          String
+  postViews         PostView[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  role     Role       @default(USER)
+  posts    Post[]     @relation("AuthorPosts")
+  comments Comment[]
+  sessions Sessions[]
+
+  @@map("users")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  posts     Post[]
+  createdAt DateTime @default(now())
+
+  @@map("tags")
+}
+
+model Post {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  excerpt     String?
+  content     String
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?
+  author      User?      @relation("AuthorPosts", fields: [authorId], references: [id], onDelete: SetNull)
+  authorId    String?
+  category    Category?  @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+  tags        Tag[]
+  comments    Comment[]
+  postViews   PostView[]
+  views       Int        @default(0)
+  readingTime Int?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+
+  @@index([status])
+  @@index([publishedAt])
+  @@index([authorId])
+  @@map("posts")
+}
+
+model PostView {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([postId])
+  @@index([userId])
+  @@index([ip])
+  @@unique([postId, userId, ip])
+}
+
+
+model Comment {
+  id        String    @id @default(cuid())
+  text      String
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    String
+  author    User?     @relation(fields: [authorId], references: [id])
+  authorId  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  isPublic  Boolean   @default(true)
+
+  @@index([postId])
+  @@index([authorId])
+  @@map("comments")
+}
+
+model Password_reset_tokens {
+  email     String    @id
+  token     String
+  createdAt DateTime? @map("created_at")
+}
+
+model Sessions {
+  id            String  @id @default(cuid())
+  user_id       String?
+  ip_address    String? @db.VarChar(45)
+  user_agent    String?
+  payload       String  @db.Text
+  last_activity Int
+
+  user User? @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
+}
+
