@@ -1,0 +1,15 @@
+import Joi from "joi";
+export const requiredString = Joi.string().required();
+export const optionalString = Joi.string().allow(null, "");
+export const requiredDate = Joi.date().iso().required();
+export const optionalDate = Joi.date().iso().optional();
+export const requiredNumber = Joi.number().required();
+export const optionalNumber = Joi.number().optional();
+export const requiredBoolean = Joi.boolean().required();
+export const optionalBoolean = Joi.boolean().optional();
+export const requiredEmail = Joi.string().email().required();
+export const optionalEmail = Joi.string().email().optional();
+export const requiredInteger = Joi.number().integer().required();
+export const optionalInteger = Joi.number().integer().optional();
+export const requiredFloat = Joi.number().required();
+export const optionalFloat = Joi.number().optional();
