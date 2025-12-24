@@ -1,8 +1,8 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 import appConfig from "./app_configs";
-import { logger } from "@/utils/logger/logger";
 import { PrismaClient } from "@prisma/client";
+import { logger } from "@/utils/logger/logger";
 
 const pool = new Pool({
   host: appConfig.DB_HOST,

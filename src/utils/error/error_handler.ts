@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
-import { errorResponse } from "../helper/response_helper.js";
 import { CustomError } from "./custom_error_handler.js";
 import { Prisma } from "@prisma/client";
 import { logger } from "../logger/logger.js";
+
 const errorHandler = (
   err: Error,
   req: Request,
@@ -28,13 +28,6 @@ const errorHandler = (
       userAgent: req.get("User-Agent"),
       requestId: req.headers["x-request-id"] || "N/A",
     });
-
-    errorResponse(
-      res,
-      errorDetails.message,
-      errorDetails,
-      errorDetails.statusCode,
-    );
     return;
   } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
     logger.error(`${err}`);
@@ -71,7 +64,6 @@ const errorHandler = (
       requestId: req.headers["x-request-id"] || "N/A",
     });
 
-    errorResponse(res, errorMessage, err.meta, statusCode);
     return;
   } else {
     logger.error({
@@ -84,13 +76,6 @@ const errorHandler = (
       userAgent: req.get("User-Agent"),
       requestId: req.headers["x-request-id"] || "N/A",
     });
-
-    errorResponse(
-      res,
-      "Something went wrong!",
-      err,
-      StatusCodes.INTERNAL_SERVER_ERROR,
-    );
     return;
   }
 };
