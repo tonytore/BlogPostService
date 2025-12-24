@@ -1,4 +1,4 @@
-import { StatusCodes } from "http-status-codes";
+import { StatusCodes } from 'http-status-codes';
 
 export interface ErrorType {
   message: string;
@@ -37,7 +37,7 @@ export abstract class CustomError extends Error {
 
 export class BadRequestError extends CustomError {
   statusCode = StatusCodes.BAD_REQUEST;
-  status = "error";
+  status = 'error';
 
   constructor(message: string, comingFrom: string, metadata?: unknown) {
     super(message, comingFrom, metadata);
@@ -46,7 +46,7 @@ export class BadRequestError extends CustomError {
 
 export class NotFoundError extends CustomError {
   statusCode = StatusCodes.NOT_FOUND;
-  status = "error";
+  status = 'error';
 
   constructor(message: string, comingFrom: string, metadata?: unknown) {
     super(message, comingFrom, metadata);
@@ -55,7 +55,7 @@ export class NotFoundError extends CustomError {
 
 export class UnauthenticatedError extends CustomError {
   statusCode = StatusCodes.UNAUTHORIZED;
-  status = "error";
+  status = 'error';
 
   constructor(message: string, comingFrom: string, metadata?: unknown) {
     super(message, comingFrom, metadata);
@@ -64,7 +64,7 @@ export class UnauthenticatedError extends CustomError {
 
 export class ForbiddenError extends CustomError {
   statusCode = StatusCodes.FORBIDDEN;
-  status = "error";
+  status = 'error';
 
   constructor(message: string, comingFrom: string, metadata?: unknown) {
     super(message, comingFrom, metadata);
@@ -73,7 +73,7 @@ export class ForbiddenError extends CustomError {
 
 export class InternalServerError extends CustomError {
   statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-  status = "error";
+  status = 'error';
 
   constructor(message: string, comingFrom: string, metadata?: unknown) {
     super(message, comingFrom, metadata);
@@ -82,7 +82,7 @@ export class InternalServerError extends CustomError {
 
 export class FileTooLargeError extends CustomError {
   statusCode = StatusCodes.REQUEST_TOO_LONG;
-  status = "error";
+  status = 'error';
 
   constructor(message: string, comingFrom: string, metadata?: unknown) {
     super(message, comingFrom, metadata);

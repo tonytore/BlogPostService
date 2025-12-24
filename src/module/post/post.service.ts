@@ -1,20 +1,22 @@
-import { calculateReadingTime } from "@/utils/helper/readingTime";
-import { PostStatus, Role } from "@prisma/client";
-import { createTag } from "../tag/tag.service";
-import * as repo from "./post.repository"
-import * as viewRepo from "./postView.repository"
-import { ForbiddenError, NotFoundError } from "@/utils/error/custom_error_handler";
-
+import { calculateReadingTime } from '@/utils/helper/readingTime';
+import { PostStatus, Role } from '@prisma/client';
+import { createTag } from '../tag/tag.service';
+import * as repo from './post.repository';
+import * as viewRepo from './postView.repository';
+import {
+  ForbiddenError,
+  NotFoundError,
+} from '@/utils/error/custom_error_handler';
 
 export interface CreatePostPayload {
-    title: string;
-    content: string;
-    excerpt: string;
-    status: PostStatus;
-    categoryId: string;
-    tags: string[];
-    authorId: string;
-    role: Role;
+  title: string;
+  content: string;
+  excerpt: string;
+  status: PostStatus;
+  categoryId: string;
+  tags: string[];
+  authorId: string;
+  role: Role;
 }
 export interface createPostPayload {
   data: {
@@ -25,7 +27,7 @@ export interface createPostPayload {
     categoryId?: string | null;
     tags?: string[];
   };
-  authorId?: string | null ;
+  authorId?: string | null;
   formattedTags?: { connect: { id: string }[] };
   readingTime?: number;
 }
@@ -64,8 +66,8 @@ export async function getAllPostServiceBySlug(slug: string) {
   const post = await repo.getPostBySlug(slug);
   if (!post) {
     throw new NotFoundError(
-      "Post not found",
-      "post.service.getAllPostServiceBySlug",
+      'Post not found',
+      'post.service.getAllPostServiceBySlug',
     );
   }
   return post;
@@ -78,8 +80,8 @@ export async function getPublishedPostServiceBySlug(
   const post = await repo.getPublishedPostBySlug(slug);
   if (!post) {
     throw new NotFoundError(
-      "Post not found",
-      "post.service.getPublishedPostServiceBySlug",
+      'Post not found',
+      'post.service.getPublishedPostServiceBySlug',
     );
   }
   const hasViewed = await viewRepo.hasViewedPost(post.id, { userId, ip });
@@ -90,22 +92,20 @@ export async function getPublishedPostServiceBySlug(
   return post;
 }
 
-export async function createPostService({
+export async function createPostService({ data, authorId }: createPostPayload) {
+  const tags = data.tags
+    ? await Promise.all(data.tags.map((name) => createTag(name)))
+    : [];
+  const readingTime = calculateReadingTime(data.content);
+
+  return repo.createPostRepository({
     data,
-    authorId
-}: createPostPayload){
-
-    const tags = data.tags ? await Promise.all(data.tags.map((name)  =>  createTag(name))) : []
-    const readingTime = calculateReadingTime(data.content)
-
-    return repo.createPostRepository({
-        data,
-        readingTime,
-        authorId,
-        formattedTags: {
-            connect: tags.map((tag) => ({ id: tag.id })),
-        }
-    })
+    readingTime,
+    authorId,
+    formattedTags: {
+      connect: tags.map((tag) => ({ id: tag.id })),
+    },
+  });
 }
 
 export async function updatePostService({
@@ -116,13 +116,13 @@ export async function updatePostService({
 }: updatePostPayload) {
   const post = await repo.getPostRepositoryById(id);
   if (!post || post.deletedAt) {
-    throw new NotFoundError("Post not found", "post.service.updatePostService");
+    throw new NotFoundError('Post not found', 'post.service.updatePostService');
   }
 
   if (post.authorId !== authorId && role !== Role.ADMIN) {
     throw new ForbiddenError(
-      "You are not authorized to update this post",
-      "post.service.updatePostService",
+      'You are not authorized to update this post',
+      'post.service.updatePostService',
     );
   }
 

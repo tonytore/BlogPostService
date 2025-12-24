@@ -16,19 +16,9 @@
     "emitDecoratorMetadata": true,
     "baseUrl": "./src",
     "paths": {
-      "@/*": [
-        "*"
-      ]
+      "@/*": ["*"]
     }
   },
-  "include": [
-    "src/**/*",
-    "prisma/**/*",
-    "Dockerfile"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "prisma"
-  ]
+  "include": ["src/**/*", "prisma/**/*", "Dockerfile"],
+  "exclude": ["node_modules", "dist", "prisma"]
 }

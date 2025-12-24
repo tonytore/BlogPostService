@@ -1,11 +1,11 @@
-import { generateSlug } from "@/utils/generateSlug";
-import { db } from "../../config/db";
-import { UpdateTagPayload } from "./tag.service";
+import { generateSlug } from '@/utils/generateSlug';
+import { db } from '../../config/db';
+import { UpdateTagPayload } from './tag.service';
 
 export async function listTagRepository() {
   const tags = await db.tag.findMany({
     orderBy: {
-      createdAt: "desc",
+      createdAt: 'desc',
     },
     include: {
       posts: true,

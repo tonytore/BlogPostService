@@ -1,5 +1,5 @@
-import * as repo from "./tag.repository";
-import { generateSlug } from "@/utils/generateSlug";
+import * as repo from './tag.repository';
+import { generateSlug } from '@/utils/generateSlug';
 
 export interface UpdateTagPayload {
   id: string;

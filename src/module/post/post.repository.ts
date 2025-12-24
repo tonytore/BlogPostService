@@ -1,7 +1,7 @@
-import { PostStatus } from "@prisma/client";
-import { createPostPayload, updatePostPayload } from "./post.service";
-import { generateSlug } from "@/utils/generateSlug";
-import { db } from "@/config/db";
+import { PostStatus } from '@prisma/client';
+import { createPostPayload, updatePostPayload } from './post.service';
+import { generateSlug } from '@/utils/generateSlug';
+import { db } from '@/config/db';
 
 export async function listPostStatusRepository(filter: PostStatus) {
   try {
@@ -11,7 +11,7 @@ export async function listPostStatusRepository(filter: PostStatus) {
         deletedAt: null,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: 'desc',
       },
       include: {
         author: true,
@@ -35,7 +35,7 @@ export async function listAllPostRepository() {
         deletedAt: null,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: 'desc',
       },
       include: {
         author: true,

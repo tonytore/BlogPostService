@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express";
-import { StatusCodes } from "http-status-codes";
-import { CustomError } from "./custom_error_handler.js";
-import { Prisma } from "@prisma/client";
-import { logger } from "../logger/logger.js";
+import { Request, Response, NextFunction } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import { CustomError } from './custom_error_handler.js';
+import { Prisma } from '@prisma/client';
+import { logger } from '../logger/logger.js';
 
 const errorHandler = (
   err: Error,
@@ -25,31 +25,31 @@ const errorHandler = (
       status: errorDetails.status,
       stack: err.stack,
       ip: req.ip,
-      userAgent: req.get("User-Agent"),
-      requestId: req.headers["x-request-id"] || "N/A",
+      userAgent: req.get('User-Agent'),
+      requestId: req.headers['x-request-id'] || 'N/A',
     });
     return;
   } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
     logger.error(`${err}`);
-    let errorMessage = "Database error occurred";
+    let errorMessage = 'Database error occurred';
     let statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-    const comingFrom = "Prisma";
+    const comingFrom = 'Prisma';
 
     switch (err.code) {
-      case "P2025":
-        errorMessage = "Resource not found";
+      case 'P2025':
+        errorMessage = 'Resource not found';
         statusCode = StatusCodes.NOT_FOUND;
         break;
-      case "P2002":
-        errorMessage = "Conflict with existing resource";
+      case 'P2002':
+        errorMessage = 'Conflict with existing resource';
         statusCode = StatusCodes.BAD_REQUEST;
         break;
-      case "P2003":
-        errorMessage = "Foreign key constraint violation";
+      case 'P2003':
+        errorMessage = 'Foreign key constraint violation';
         statusCode = StatusCodes.BAD_REQUEST;
         break;
       default:
-        errorMessage = "Database error occurred";
+        errorMessage = 'Database error occurred';
         statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
         break;
     }
@@ -60,8 +60,8 @@ const errorHandler = (
       comingFrom: comingFrom,
       stack: err.stack,
       ip: req.ip,
-      userAgent: req.get("User-Agent"),
-      requestId: req.headers["x-request-id"] || "N/A",
+      userAgent: req.get('User-Agent'),
+      requestId: req.headers['x-request-id'] || 'N/A',
     });
 
     return;
@@ -69,12 +69,12 @@ const errorHandler = (
     logger.error({
       message: err.message,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      comingFrom: "Unknown",
-      status: "error",
+      comingFrom: 'Unknown',
+      status: 'error',
       stack: err.stack,
       ip: req.ip,
-      userAgent: req.get("User-Agent"),
-      requestId: req.headers["x-request-id"] || "N/A",
+      userAgent: req.get('User-Agent'),
+      requestId: req.headers['x-request-id'] || 'N/A',
     });
     return;
   }

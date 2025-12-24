@@ -1,8 +1,8 @@
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
-import appConfig from "./app_configs";
-import { PrismaClient } from "@prisma/client";
-import { logger } from "@/utils/logger/logger";
+import { PrismaPg } from '@prisma/adapter-pg';
+import { Pool } from 'pg';
+import appConfig from './app_configs';
+import { PrismaClient } from '@prisma/client';
+import { logger } from '@/utils/logger/logger';
 
 const pool = new Pool({
   host: appConfig.DB_HOST,
@@ -20,9 +20,9 @@ export const db = new PrismaClient({ adapter });
 export async function connectToDB() {
   try {
     await db.$connect();
-    logger.info("[database]: connected!");
+    logger.info('[database]: connected!');
   } catch (err) {
-    console.log("[database]: connection error: ", err);
+    console.log('[database]: connection error: ', err);
     await db.$disconnect();
   }
 }

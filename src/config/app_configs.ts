@@ -1,4 +1,4 @@
-import env from "dotenv";
+import env from 'dotenv';
 env.config();
 
 const appConfig = {
@@ -8,8 +8,8 @@ const appConfig = {
   BLOG_DB: process.env.BLOG_DB,
   DB_PASSWORD: process.env.DB_PASSWORD,
   APP_NAME: process.env.APP_NAME,
-  NODE_ENV: process.env.NODE_ENV as "development" | "production",
-  CLIENT_URL: process.env.CLIENT_URL || "http://localhost:5000",
+  NODE_ENV: process.env.NODE_ENV as 'development' | 'production',
+  CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:5000',
   DATABASE_URL: process.env.DATABASE_URL,
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
   REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
@@ -19,14 +19,14 @@ const appConfig = {
   REFRESH_TOKEN_EXPIRES_IN: process.env.REFRESH_TOKEN_EXPIRES_IN,
   PORT: process.env.PORT || 3000,
   LOG_LEVEL: process.env.LOG_LEVEL,
-  LOKI_URL: process.env.LOKI_URL || "http://loki:3100",
+  LOKI_URL: process.env.LOKI_URL || 'http://loki:3100',
   ACCESS_COOKIE_OPTIONS: {
     httpOnly: true,
     secure: false,
-    sameSite: "lax" as const,
+    sameSite: 'lax' as const,
     maxAge: 54000000, // 15 minutes in milliseconds
   },
-  RABBITMQ_URL: process.env.RABBITMQ_ENDPOINT || "amqp://localhost"
+  RABBITMQ_URL: process.env.RABBITMQ_ENDPOINT || 'amqp://localhost',
 };
 
 export default appConfig;
