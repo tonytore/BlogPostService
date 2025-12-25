@@ -45,7 +45,7 @@ const winstonLogger = (
 };
 
 const logger = winstonLogger(
-  appConfig.APP_NAME || 'blog-backend',
+  appConfig.APP_NAME || 'post-service',
   appConfig.LOG_LEVEL || 'info',
   appConfig.NODE_ENV || 'development',
 );
