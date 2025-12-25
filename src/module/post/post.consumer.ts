@@ -26,7 +26,7 @@ interface MessagePayload<T> {
 }
 
 export async function startPostConsumer(channel: Channel) {
-  const exchange = 'post. exchange';
+  const exchange = 'post.exchange';
   const queue = 'post.commands';
 
   await channel.assertExchange(exchange, 'topic', { durable: true });
@@ -51,7 +51,7 @@ export async function startPostConsumer(channel: Channel) {
           await handleDeletePost(message.payload);
           break;
         default:
-          logger.warn('Unknown message type: ' + message.type);
+          logger.warn('Unknown message type: ' + message.action);
       }
       channel.ack(msg, false);
     } catch (error) {
@@ -107,9 +107,11 @@ async function handleUpdatePost(
     );
   }
 
+  const { id, ...updateData } = data;
+
   await updatePostService({
-    id: data.id,
-    data,
+    id,
+    data: updateData,
     authorId: meta.userId,
     role: meta.role,
   });
