@@ -34,10 +34,10 @@ export interface createPostPayload {
 export interface updatePostPayload {
   id: string;
   data: {
-    title: string;
+    title?: string;
     excerpt?: string | null;
-    content: string;
-    status: PostStatus;
+    content?: string;
+    status?: PostStatus;
     categoryId?: string | null;
     tags?: string[];
   };
@@ -131,4 +131,23 @@ export async function updatePostService({
     data,
     authorId,
   });
+}
+
+export async function DeletePostService(
+  id: string,
+  userId: string,
+  role: Role,
+) {
+  const post = await repo.getPostRepositoryById(id);
+  if (!post || post.deletedAt) {
+    throw new NotFoundError('Post not found', 'post.service.deletePostService');
+  }
+
+  if (post.authorId !== userId && role !== Role.ADMIN) {
+    throw new ForbiddenError(
+      'You are not allowed to delete this post',
+      'post.service.hardDeletePostService',
+    );
+  }
+  return repo.DeletePostRepository(id);
 }

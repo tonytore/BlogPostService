@@ -162,7 +162,7 @@ export async function softDeletePostRepository(id: string) {
   return deletedPost;
 }
 
-export async function hardDeletePostRepository(id: string) {
+export async function DeletePostRepository(id: string) {
   const deletedPost = await db.post.delete({
     where: { id },
   });
