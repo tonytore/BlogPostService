@@ -1,0 +1,50 @@
+{"level":"error","message":"Post Consumer error: TypeError: Cannot destructure property 'title' of 'payload' as it is undefined.","service":"post-service","timestamp":"2025-12-27T06:38:18.521Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T08:22:03.321Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T08:22:03.326Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T08:22:10.371Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T08:25:01.241Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T08:25:01.244Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T09:01:18.048Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T09:01:18.049Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T09:01:18.080Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T09:01:18.081Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T09:01:22.918Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T09:01:22.920Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T09:01:22.989Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T09:01:22.990Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T09:01:36.622Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T09:01:36.624Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T09:01:36.632Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T09:01:36.633Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T09:01:38.637Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T09:01:38.638Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T09:01:38.700Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T09:01:38.701Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T09:02:33.418Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T09:02:33.419Z"}
+{"level":"error","message":"Post Consumer error: TypeError: Cannot destructure property 'data' of 'undefined' as it is undefined.","service":"post-service","timestamp":"2025-12-27T09:03:18.831Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T09:04:51.182Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T09:04:51.183Z"}
+{"level":"error","message":"Post Consumer error: TypeError: Cannot destructure property 'data' of 'undefined' as it is undefined.","service":"post-service","timestamp":"2025-12-27T09:09:02.155Z"}
+{"level":"error","message":"Post Consumer error: TypeError: Cannot destructure property 'data' of 'undefined' as it is undefined.","service":"post-service","timestamp":"2025-12-27T10:32:50.464Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T10:34:04.158Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T10:34:04.162Z"}
+{"level":"error","message":"Post Consumer error: TypeError: Cannot destructure property 'data' of 'undefined' as it is undefined.","service":"post-service","timestamp":"2025-12-27T10:34:34.061Z"}
+{"level":"error","message":"Post Consumer error: TypeError: Cannot destructure property 'data' of 'undefined' as it is undefined.","service":"post-service","timestamp":"2025-12-27T10:39:50.032Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T10:46:34.079Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T10:46:34.080Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T10:49:11.821Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T10:49:11.825Z"}
+{"level":"error","message":"Post Consumer error: PrismaClientKnownRequestError: \nInvalid `db.post.create()` invocation in\n/home/teme/Desktop/blogMicro/post-service/src/module/post/post.repository.ts:109:35\n\n  106 }: createPostPayload) {\n  107   try {\n  108     const slug = await generateSlug(data.title);\n→ 109     const newPost = await db.post.create(\nForeign key constraint violated on the constraint: `posts_authorId_fkey`","service":"post-service","timestamp":"2025-12-27T10:49:24.438Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T11:17:07.759Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T11:17:07.762Z"}
+{"level":"error","message":"Post Consumer error: PrismaClientKnownRequestError: \nInvalid `db.tag.findUnique()` invocation in\n/home/teme/Desktop/blogMicro/post-service/src/module/tag/tag.repository.ts:18:26\n\n  15 }\n  16 \n  17 export async function getTagBySlug(slug: string) {\n→ 18   const c = await db.tag.findUnique(\nThe table `public.tags` does not exist in the current database.","service":"post-service","timestamp":"2025-12-27T11:17:16.848Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T11:24:42.162Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T11:24:42.163Z"}
+{"level":"error","message":"Post Consumer error: PrismaClientKnownRequestError: \nInvalid `db.post.create()` invocation in\n/home/teme/Desktop/blogMicro/post-service/src/module/post/post.repository.ts:109:35\n\n  106 }: createPostPayload) {\n  107   try {\n  108     const slug = await generateSlug(data.title);\n→ 109     const newPost = await db.post.create(\nForeign key constraint violated on the constraint: `posts_authorId_fkey`","service":"post-service","timestamp":"2025-12-27T11:25:14.712Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T11:38:58.128Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T11:38:58.129Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T11:38:58.134Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T11:38:58.135Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2025-12-27T11:39:21.415Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2025-12-27T11:39:21.416Z"}

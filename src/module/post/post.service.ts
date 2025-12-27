@@ -7,47 +7,22 @@ import {
   ForbiddenError,
   NotFoundError,
 } from '@/utils/error/custom_error_handler';
+import { viewPostPayload } from '@/types/type';
 
-export interface CreatePostPayload {
+export interface CreatePostServiceInput {
   title: string;
   content: string;
-  excerpt: string;
+  excerpt?: string | null;
   status: PostStatus;
-  categoryId: string;
-  tags: string[];
-  authorId: string;
-  role: Role;
-}
-export interface createPostPayload {
-  data: {
-    title: string;
-    excerpt?: string | null;
-    content: string;
-    status: PostStatus;
-    categoryId?: string | null;
-    tags?: string[];
-  };
-  authorId?: string | null;
-  formattedTags?: { connect: { id: string }[] };
-  readingTime?: number;
-}
-export interface updatePostPayload {
-  id: string;
-  data: {
-    title?: string;
-    excerpt?: string | null;
-    content?: string;
-    status?: PostStatus;
-    categoryId?: string | null;
-    tags?: string[];
-  };
-  authorId?: string | null;
-  role?: Role;
+  categoryId?: string | null;
+  tags?: string[];
 }
 
-export interface viewPostPayload {
-  userId?: string;
-  ip?: string;
+export interface UpdatePostServiceInput {
+  id: string;
+  data: Partial<CreatePostServiceInput>;
+  authorId: string;
+  role: Role;
 }
 
 export async function getPostStatusService(status: PostStatus) {
@@ -92,7 +67,10 @@ export async function getPublishedPostServiceBySlug(
   return post;
 }
 
-export async function createPostService({ data, authorId }: createPostPayload) {
+export async function createPostService(
+  data: CreatePostServiceInput,
+  authorId: string,
+) {
   const tags = data.tags
     ? await Promise.all(data.tags.map((name) => createTag(name)))
     : [];
@@ -100,11 +78,13 @@ export async function createPostService({ data, authorId }: createPostPayload) {
 
   return repo.createPostRepository({
     data,
-    readingTime,
     authorId,
-    formattedTags: {
-      connect: tags.map((tag) => ({ id: tag.id })),
-    },
+    formattedTags: tags.length
+      ? {
+          connect: tags.map((tag) => ({ id: tag.id })),
+        }
+      : undefined,
+    readingTime,
   });
 }
 
@@ -113,7 +93,7 @@ export async function updatePostService({
   data,
   authorId,
   role,
-}: updatePostPayload) {
+}: UpdatePostServiceInput) {
   const post = await repo.getPostRepositoryById(id);
   if (!post || post.deletedAt) {
     throw new NotFoundError('Post not found', 'post.service.updatePostService');

@@ -1,5 +1,5 @@
 import { db } from '@/config/db';
-import { viewPostPayload } from './post.service';
+import { viewPostPayload } from '@/types/type';
 
 export async function createPostView(
   postId: string,

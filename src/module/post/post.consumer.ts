@@ -1,29 +1,11 @@
 import { Channel, ConsumeMessage } from 'amqplib';
-import {
-  CreatePostPayload,
-  createPostService,
-  DeletePostService,
-  updatePostService,
-} from './post.service';
-import {
-  ForbiddenError,
-  UnauthenticatedError,
-} from '@/utils/error/custom_error_handler';
-import { Role } from '@prisma/client';
 import { logger } from '@/utils/logger/logger';
-
-interface MessageMeta {
-  userId: string;
-  role: Role;
-  requestId: string;
-  timestamp: number;
-}
-
-interface MessagePayload<T> {
-  action: 'post.create' | 'post.update' | 'post.delete';
-  data: T;
-  meta: MessageMeta;
-}
+import {
+  handleCreatePost,
+  handleDeletePost,
+  handleUpdatePost,
+} from './post.controller';
+import { PostCommandMessage } from '@/types/message.types';
 
 export async function startPostConsumer(channel: Channel) {
   const exchange = 'post.exchange';
@@ -39,7 +21,7 @@ export async function startPostConsumer(channel: Channel) {
   await channel.consume(queue, async (msg: ConsumeMessage | null) => {
     if (!msg) return;
     try {
-      const message = JSON.parse(msg.content.toString());
+      const message: PostCommandMessage = JSON.parse(msg.content.toString());
       switch (message.action) {
         case 'post.create':
           await handleCreatePost(message.payload);
@@ -51,7 +33,7 @@ export async function startPostConsumer(channel: Channel) {
           await handleDeletePost(message.payload);
           break;
         default:
-          logger.warn('Unknown message type: ' + message.action);
+          logger.warn('Unknown message action: ' + message.action);
       }
       channel.ack(msg, false);
     } catch (error) {
@@ -59,73 +41,6 @@ export async function startPostConsumer(channel: Channel) {
       channel.nack(msg, false, false); // discard
     }
   });
-}
 
-async function handleCreatePost(payload: CreatePostPayload) {
-  const { title, content, excerpt, status, categoryId, tags, authorId, role } =
-    payload;
-
-  if (role !== Role.ADMIN && role !== Role.AUTHOR) {
-    throw new UnauthenticatedError(
-      'Not authorized to create post',
-      'post.consumer.handleCreatePost()',
-    );
-  }
-
-  await createPostService({
-    data: {
-      title,
-      content,
-      excerpt,
-      status,
-      categoryId,
-      tags,
-    },
-    authorId,
-  });
-}
-
-async function handleUpdatePost(
-  message: MessagePayload<{
-    id: string;
-    title?: string;
-    content?: string;
-    excerpt?: string;
-    status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
-    categoryId?: string;
-    tags?: string[];
-    authorId?: string | null;
-    role?: Role;
-  }>,
-) {
-  const { data, meta } = message;
-
-  if (meta.role !== Role.ADMIN && meta.role !== Role.AUTHOR) {
-    throw new ForbiddenError(
-      'Not authorized to update post',
-      'post.consumer.handleUpdatePost',
-    );
-  }
-
-  const { id, ...updateData } = data;
-
-  await updatePostService({
-    id,
-    data: updateData,
-    authorId: meta.userId,
-    role: meta.role,
-  });
-}
-
-async function handleDeletePost(message: MessagePayload<{ id: string }>) {
-  const { data, meta } = message;
-
-  if (meta.role !== Role.ADMIN && meta.role !== Role.AUTHOR) {
-    throw new ForbiddenError(
-      'Not authorized to delete post',
-      'post.consumer.handleDeletePost',
-    );
-  }
-
-  await DeletePostService(data.id, meta.userId, meta.role);
+  logger.info('Post Consumer started and listening for messages...');
 }
