@@ -23,7 +23,6 @@ export async function handleCreatePost({ data, meta }: PostHandlerPayload) {
       'post.consumer.handleCreatePost()',
     );
   }
-
   await createPostService(data as CreatePostServiceInput, meta.userId);
 }
 

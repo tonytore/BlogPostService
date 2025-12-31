@@ -104,19 +104,4 @@ model Comment {
   @@map("comments")
 }
 
-model Password_reset_tokens {
-  email     String    @id
-  token     String
-  createdAt DateTime? @map("created_at")
-}
-
-model Sessions {
-  id            String  @id @default(cuid())
-  user_id       String?
-  ip_address    String? @db.VarChar(45)
-  user_agent    String?
-  payload       String  @db.Text
-  last_activity Int
-
-}
 

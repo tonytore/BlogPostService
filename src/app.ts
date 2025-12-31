@@ -1,4 +1,4 @@
-import { connectRabbitMQChannel } from './config/rabbitmq';
+import { connectRabbitMQChannel } from './rabbitmq/consument';
 import { startPostConsumer } from './module/post/post.consumer';
 import { logger } from './utils/logger/logger';
 
