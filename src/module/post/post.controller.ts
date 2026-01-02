@@ -2,14 +2,18 @@ import {
   ForbiddenError,
   UnauthenticatedError,
 } from '@/utils/error/custom_error_handler';
-import { Role } from '@prisma/client';
+import { PostStatus, Role } from '@prisma/client';
 import {
   createPostService,
   CreatePostServiceInput,
   DeletePostService,
+  getAllPostService,
   updatePostService,
-} from './post.service';
+} from '@/module/post/post.service';
 import { MessageMeta, PostCommandPayload } from '@/types/message.types';
+import catchAsync from '@/utils/helper/catch_async';
+import { successResponse } from '@/utils/helper/response_helper';
+import * as svc from '@/module/post/post.service';
 
 interface PostHandlerPayload {
   data: PostCommandPayload;
@@ -59,3 +63,20 @@ export async function handleDeletePost({ data, meta }: PostHandlerPayload) {
 
   await DeletePostService(data.id!, meta.userId, meta.role);
 }
+
+export const getAllPost = catchAsync(async (req, res) => {
+  const posts = await getAllPostService();
+  return successResponse(res, 'All Posts fetched successfully', posts);
+});
+
+export const getPostByStatus = catchAsync(async (req, res) => {
+  const status = req.params.status as PostStatus;
+  const posts = await svc.getPostByStatus(status);
+  return successResponse(res, 'PostBySlug fetched successfully', posts);
+});
+
+export const getAllPostBySlug = catchAsync(async (req, res) => {
+  const slug = req.params.slug;
+  const posts = await svc.getAllPostServiceBySlug(slug);
+  return successResponse(res, 'PostBySlug fetched successfully', posts);
+});

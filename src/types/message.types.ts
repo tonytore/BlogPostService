@@ -3,6 +3,7 @@ import { Role, PostStatus } from '@prisma/client';
 export interface MessageMeta {
   userId: string;
   role: Role;
+  ip?: string;
   requestId: string;
   timestamp: number;
 }

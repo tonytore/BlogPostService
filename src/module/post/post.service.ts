@@ -1,8 +1,8 @@
 import { calculateReadingTime } from '@/utils/helper/readingTime';
 import { PostStatus, Role } from '@prisma/client';
-import { createTag } from '../tag/tag.service';
-import * as repo from './post.repository';
-import * as viewRepo from './postView.repository';
+import { createTag } from '@/module/tag/tag.service';
+import * as repo from '@/module/post/post.repository';
+import * as viewRepo from '@/module/post/postView.repository';
 import {
   ForbiddenError,
   NotFoundError,
@@ -25,7 +25,7 @@ export interface UpdatePostServiceInput {
   role: Role;
 }
 
-export async function getPostStatusService(status: PostStatus) {
+export async function getPostByStatus(status: PostStatus) {
   return repo.listPostStatusRepository(status);
 }
 
@@ -41,7 +41,7 @@ export async function getAllPostServiceBySlug(slug: string) {
   const post = await repo.getPostBySlug(slug);
   if (!post) {
     throw new NotFoundError(
-      'Post not found',
+      'Post not found by this slug',
       'post.service.getAllPostServiceBySlug',
     );
   }
