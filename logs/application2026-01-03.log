@@ -1,0 +1,6 @@
+{"level":"info","message":"Post Service is listening on port 4002","service":"post-service","timestamp":"2026-01-03T06:20:44.406Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2026-01-03T06:20:44.470Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2026-01-03T06:20:44.471Z"}
+{"level":"info","message":"Post Service is listening on port 4002","service":"post-service","timestamp":"2026-01-03T06:42:52.871Z"}
+{"level":"info","message":"Post Consumer started and listening for messages...","service":"post-service","timestamp":"2026-01-03T06:42:52.927Z"}
+{"level":"info","message":"Post Service is running and listening...","service":"post-service","timestamp":"2026-01-03T06:42:52.927Z"}
